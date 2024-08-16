@@ -1,6 +1,12 @@
+import React from 'react';
+import { UnsplashImage } from '../types';
 import css from './ImageCard.module.css';
 
-export default function ImageCard({ image }) {
+interface ImageCardProps {
+  image: UnsplashImage;
+}
+
+export default function ImageCard({ image }: ImageCardProps) {
   return (
     <div className={css.imgcontainer}>
       <img

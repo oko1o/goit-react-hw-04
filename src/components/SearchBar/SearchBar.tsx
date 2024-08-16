@@ -1,11 +1,11 @@
-import { useState } from 'react';
+import React, { FormEvent, useState } from 'react';
 import { Toaster, toast } from 'react-hot-toast';
 import css from './SearchBar.module.css';
 
 export default function SearchBar({ onSubmit }) {
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState<string>('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!query) {

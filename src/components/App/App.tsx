@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { fetchImages } from '../unsplash-api';
 import SearchBar from '../SearchBar/SearchBar';
 import ImageGallery from '../ImageGallery/ImageGallery';
@@ -7,19 +7,20 @@ import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import LoadMoreBtn from '../LoadMoreBtn/LoadMoreBtn';
 import ImageModal from '../ImageModal/ImageModal';
 import Modal from 'react-modal';
+import { UnsplashImage } from '../types';
 import css from './App.module.css';
 
 Modal.setAppElement('#root');
 
 export default function App() {
-  const [currentImage, setCurrentImage] = useState('');
-  const [error, setError] = useState(false);
-  const [images, setImages] = useState([]);
-  const [isOpenModal, setIsOpenModal] = useState(false);
-  const [loader, setLoader] = useState(false);
-  const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(0);
-  const [query, setQuery] = useState('');
+  const [currentImage, setCurrentImage] = useState<UnsplashImage | null>(null);
+  const [error, setError] = useState<boolean>(false);
+  const [images, setImages] = useState<UnsplashImage[]>([]);
+  const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
+  const [loader, setLoader] = useState<boolean>(false);
+  const [page, setPage] = useState<number>(1);
+  const [totalPages, setTotalPages] = useState<number>(0);
+  const [query, setQuery] = useState<string>('');
 
   useEffect(() => {
     if (!query) return;
@@ -39,24 +40,24 @@ export default function App() {
     getImages();
   }, [query, page]);
 
-  const handleSubmit = (query) => {
+  const handleSubmit = (query: string) => {
     setImages([]);
     setPage(1);
     setQuery(query);
   };
 
-  const onLoadMore = () => {
+  const onLoadMore = (): void => {
     setPage(page + 1);
   };
 
   const isVisibleBtnLoadMore = totalPages > page && images.length > 0;
 
-  const openModal = (thisImage) => {
+  const openModal = (thisImage): void => {
     setIsOpenModal(true);
     setCurrentImage(thisImage);
   };
 
-  const closeModal = () => {
+  const closeModal = (): void => {
     setIsOpenModal(false);
   };
 
@@ -72,11 +73,10 @@ export default function App() {
       )}
       {isVisibleBtnLoadMore && <LoadMoreBtn onClick={onLoadMore} />}
       {loader && <Loader />}
-      {isOpenModal && (
+      {isOpenModal && currentImage !== null && (
         <ImageModal
           isOpen={isOpenModal}
           onRequestClose={closeModal}
-          images={images}
           currentImage={currentImage}
           preventScroll={true}
         />
