@@ -25,3 +25,8 @@ export interface ImageModalProps {
   onRequestClose: () => void;
   preventScroll: boolean;
 }
+
+export interface ImageGallery {
+  images: UnsplashImage[];
+  openModal: (image: UnsplashImage) => void;
+}
